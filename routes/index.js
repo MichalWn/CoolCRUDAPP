@@ -4,6 +4,8 @@ var db = require("../db");
 var bcrypt = require("bcrypt");
 var jsonwebtoken = require("jsonwebtoken");
 const config = require("../config");
+const { Logger, loggers } = require("winston");
+const logs = require("../logs/log");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -54,7 +56,9 @@ router.post("/login", (req, res, next) => {
 			);
 
 			req.session.token = token;
+	
 
+			logs.info(`Zalogowano ${rows[0].login}`);
 
 			res.redirect("/cars");
 		}
