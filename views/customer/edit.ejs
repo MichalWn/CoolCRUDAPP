@@ -1,0 +1,43 @@
+<%- include ../layouts/header.ejs %>
+<p>Zalogowano: <span><%=username%></span></p>
+<div class="page-data">
+	<form method="POST" action="/customers/edit/<%=data[0].id%>">
+		<table cellpadding="11">
+			<tr>
+				<td class="label">Nazwa</td>
+				<td>
+					<input type="text" name="name" required value="<%=data[0].name%>" />
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Adres</td>
+				<td>
+					<textarea name="address" required cols="30" rows="5">
+<%=data[0].address%></textarea
+					>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">E-mail</td>
+				<td>
+					<input type="text" name="email" required value="<%=data[0].email%>" />
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Telefon</td>
+				<td>
+					<input type="text" name="phone" required value="<%=data[0].phone%>" />
+				</td>
+			</tr>
+			<tr>
+				<td class="label"></td>
+				<td>
+					<button type="submit">Zapisz</button>
+					<button type="button" onclick="cancelAdd()">Anuluj</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+<%- include ../layouts/footer.ejs %>
