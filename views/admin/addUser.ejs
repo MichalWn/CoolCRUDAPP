@@ -3,10 +3,13 @@
 <p><%= message %></p>
 
 <form method="POST">
-    <p><label>Login</label> <input type="text" name="username"></p>
-    <p><label>Hasło</label> <input type="password" name="password"></p>
+    <p><label>Login</label> <input type="text" name="login"></p>
+    <p><label>Hasło</label> <input type="password" name="haslo"></p>
     <p><label>Email</label> <input type="text" name="email"></p>
-    <p><label>isAdmin</label> <input type="number" min="0" max="1" name="isAdmin"></p>
+    <p><label>Czy admin</label> <input type="number" min="0" max="1" name="czyAdmin"></p>
+    <p><label>Imie</label> <input type="text" name="imie"></p>
+    <p><label>Nazwisko</label> <input type="text" name="nazwisko"></p>
+    <p><label>Telefon</label> <input type="number" name="telefon"></p>
     <p><input type="submit" value="Utwórz"></p>
 </form>
 <%- include ../layouts/footer.ejs %>

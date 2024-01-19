@@ -1,32 +1,32 @@
 <%- include ../layouts/header.ejs %>
 <p>Zalogowano: <span><%=username%></span></p>
 <div class="page-data">
-	<form method="POST" action="/customers/edit/<%=data[0].id%>">
+	<form method="POST" action="/cars/edit/<%=data[0].id%>">
 		<table cellpadding="11">
 			<tr>
-				<td class="label">Nazwa</td>
+				<td class="label">Marka</td>
 				<td>
-					<input type="text" name="name" required value="<%=data[0].name%>" />
+					<input type="text" name="marka" required value="<%=data[0].marka%>" />
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Adres</td>
+				<td class="label">Model</td>
 				<td>
-					<textarea name="address" required cols="30" rows="5">
-<%=data[0].address%></textarea
+					<textarea name="model" required cols="30" rows="5">
+<%=data[0].model%></textarea
 					>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">E-mail</td>
+				<td class="label">Rocznik</td>
 				<td>
-					<input type="text" name="email" required value="<%=data[0].email%>" />
+					<input type="number" name="rocznik" required value="<%=data[0].rocznik%>" />
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Telefon</td>
+				<td class="label">Cena</td>
 				<td>
-					<input type="text" name="phone" required value="<%=data[0].phone%>" />
+					<input type="number" name="cena" required value="<%=data[0].cena%>" />
 				</td>
 			</tr>
 			<tr>

@@ -18,11 +18,11 @@ router.get("/login", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-	const { username, password } = req.body;
+	const { login, haslo } = req.body;
 
-	const sql = `SELECT * FROM users WHERE username=$1 LIMIT 1`;
+	const sql = `SELECT * FROM users WHERE login=$1 LIMIT 1`;
 
-	db.all(sql, [username], async (err, rows) => {
+	db.all(sql, [login], async (err, rows) => {
 		if (err) return console.error("Błąd odczytu z bazy");
 
 		if (rows.length === 0) {
@@ -32,7 +32,7 @@ router.post("/login", (req, res, next) => {
 			});
 		}
 
-		const comparedPassword = await bcrypt.compare(password, rows[0].password);
+		const comparedPassword = await bcrypt.compare(haslo, rows[0].haslo);
 
 		if (comparedPassword === false) {
 			return res.render("login", {
@@ -44,8 +44,8 @@ router.post("/login", (req, res, next) => {
 
 			const token = jsonwebtoken.sign(
 				{
-					username: rows[0].username,
-					isAdmin: rows[0].isAdmin,
+					username: rows[0].login,
+					isAdmin: rows[0].czyAdmin,
 				},
 				config.SECRET,
 				{
@@ -55,7 +55,8 @@ router.post("/login", (req, res, next) => {
 
 			req.session.token = token;
 
-			res.redirect("/admin");
+
+			res.redirect("/cars");
 		}
 	});
 });

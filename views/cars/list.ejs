@@ -5,22 +5,22 @@
 		<table>
 			<tr>
 				<th width="50px">Nr.</th>
-				<th>Nazwa</th>
-				<th>Adres</th>
-				<th>Telefon</th>
-				<th>e-mail</th>
+				<th>Marka</th>
+				<th>Model</th>
+				<th>Rocznik</th>
+				<th>Cena</th>
 			</tr>
 			<% if(data.length){ for(var i = 0; i< data.length; i++){ %>
 			<tr>
 				<td><%=(i+1)%></td>
-				<td><%=data[i].name%></td>
-				<td><%=data[i].address%></td>
-				<td><%=data[i].phone%></td>
-				<td><%=data[i].email%></td>
+				<td><%=data[i].marka%></td>
+				<td><%=data[i].model%></td>
+				<td><%=data[i].rocznik%></td>
+				<td><%=data[i].cena%></td>
 			</tr>
 			<% } } else { %>
 			<tr>
-				<td colspan="6">Brak klientów</td>
+				<td colspan="6">Brak samochodow</td>
 			</tr>
 			<%} %>
 		</table>

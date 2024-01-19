@@ -13,7 +13,7 @@ function getIsAdmin(token, res) {
 	}
 }
 
-function getUserName(token, res) {
+function getUsername(token, res) {
 	try {
 		const tokenVerify = jsonwebtoken.verify(token, config.SECRET);
 		return tokenVerify.username;
@@ -24,25 +24,25 @@ function getUserName(token, res) {
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-	const sql = `SELECT * FROM customers`;
+	const sql = `SELECT * FROM samochody`;
 
 	db.all(sql, [], (err, rows) => {
 		if (err)
-			return console.error("Błąd przy próbie pobrania klientów z bazy", err);
+			return console.error("Błąd przy próbie pobrania samochodow z bazy", err);
 		// const sessionToken = req.session.token;
 		// const tokenVerify = jsonwebtoken.verify(sessionToken, config.SECRET);
 		// console.log(tokenVerify);
 		const isAdmin = getIsAdmin(req.session.token, res);
 		if (isAdmin === 0) {
-			res.render("customer/list", {
-				title: "Customer - klienci",
-				username: getUserName(req.session.token, res),
+			res.render("cars/list", {
+				title: "Samochody - lista",
+				username: getUsername(req.session.token, res),
 				data: rows,
 			});
 		} else if (isAdmin === 1) {
-			res.render("customer/listAdmin", {
-				title: "Customer - klienci",
-				username: getUserName(req.session.token, res),
+			res.render("cars/listAdmin", {
+				title: "Samochody - admin",
+				username: getUsername(req.session.token, res),
 				data: rows,
 			});
 		}
@@ -52,36 +52,36 @@ router.get("/", function (req, res, next) {
 router.get("/edit/:id", (req, res, next) => {
 	const { id } = req.params;
 
-	const sql = `SELECT * FROM customers WHERE id=$1`;
+	const sql = `SELECT * FROM samochody WHERE id=$1`;
 
 	db.all(sql, [id], (err, rows) => {
-		if (err) return console.error("Błąd przy próbie pobrania klientów", err);
+		if (err) return console.error("Błąd przy próbie pobrania samochodow", err);
 		const isAdmin = getIsAdmin(req.session.token, res);
 		if (isAdmin === 1) {
-			res.render("customer/edit", {
-				title: `Edycja klienta: ${rows[0].name}`,
+			res.render("cars/edit", {
+				title: `Edycja samochodu: ${rows[0].marka}`,
 				data: rows,
-				username: getUserName(req.session.token, res),
+				username: getUsername(req.session.token, res),
 			});
 		} else {
-			res.redirect("/customers");
+			res.redirect("/cars");
 		}
 	});
 });
 
 router.post("/edit/:id", (req, res, next) => {
-	const { name, address, email, phone } = req.body;
+	const { marka, model, rocznik, cena } = req.body;
 	const { id } = req.params;
 
 	const isAdmin = getIsAdmin(req.session.token, res);
 	if (isAdmin === 1) {
-		const sql = `UPDATE customers SET name=$1, address=$2, email=$3, phone=$4 WHERE id=$5`;
-		db.all(sql, [name, address, email, phone, id], (err, result) => {
+		const sql = `UPDATE samochody SET marka=$1, model=$2, rocznik=$3, cena=$4 WHERE id=$5`;
+		db.all(sql, [marka, model, rocznik, cena, id], (err, result) => {
 			if (err) return console.error("Błąd przy aktualizacji", err);
-			res.redirect("/customers");
+			res.redirect("/cars");
 		});
 	} else {
-		res.redirect("/customers");
+		res.redirect("/cars");
 	}
 });
 
@@ -90,15 +90,15 @@ router.get("/delete/:id", (req, res, next) => {
 
 	const isAdmin = getIsAdmin(req.session.token, res);
 	if (isAdmin === 1) {
-		const sql = `DELETE FROM customers WHERE id=$1`;
+		const sql = `DELETE FROM samochody WHERE id=$1`;
 		db.all(sql, [id], (err, result) => {
 			if (err)
-				return console.error("Błąd przy próbie usunięcia klienta z bazy", err);
+				return console.error("Błąd przy próbie usunięcia samochodu z bazy", err);
 
-			res.redirect("/customers");
+			res.redirect("/cars");
 		});
 	} else {
-		res.redirect("/customers");
+		res.redirect("/cars");
 	}
 });
 

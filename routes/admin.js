@@ -43,26 +43,26 @@ router.get('/adduser', function (req, res, next) {
 
 
 router.post("/adduser", function (req, res, next) {
-    const { username, password, email, isAdmin } = req.body
+    const { login, haslo, email, czyAdmin, imie, nazwisko, telefon } = req.body
 
-    const sql = `SELECT * FROM users WHERE username=$1 LIMIT 1`;
+    const sql = `SELECT * FROM users WHERE imie=$1 LIMIT 1`;
 
-    db.all(sql, [username], async (err, rows) => {
+    db.all(sql, [login], async (err, rows) => {
         if (err) return console.error("Błąd przy próbie odczytu z bazy", err.message);
 
         if (rows.length === 1) {
-            res.render("admin/addUser", {
+            return res.render("admin/addUser", {
                 title: "Admin - dodawanie użytkownika",
                 message: "Użytkownik już istnieje",
                 username: ""
             })
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(haslo, 10);
 
-        const sqlInsert = `INSERT INTO users(username, password, email, isAdmin) VALUES($1, $2, $3, $4)`;
+        const sqlInsert = `INSERT INTO users(login, haslo, email, czyAdmin, imie, nazwisko, telefon) VALUES($1, $2, $3, $4, $5, $6, $7)`;
 
-        db.all(sqlInsert, [username, hashedPassword, email, isAdmin], (err, rows) => {
+        db.all(sqlInsert, [login, hashedPassword, email, czyAdmin, imie, nazwisko, telefon], (err, rows) => {
             if (err) {
                 console.error("Błąd przy próbie zapisu do bazy", err.message);
                 res.render("admin/addUser", {
